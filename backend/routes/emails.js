@@ -71,15 +71,21 @@ router.post('/webhook', async (req, res) => {
         const email = await Email.findOne({ mailgunId: messageId });
         if (!email) return res.status(404).send('Email not found');
 
+        const stats = await EmailStats.findOne();
+        if (!stats) return res.status(500).send('EmailStats document not found');
+
         switch (event) {
             case 'delivered':
                 email.analytics.delivered += 1;
+                stats.totalDelivered += 1;
                 break;
             case 'opened':
                 email.analytics.opened += 1;
+                stats.totalOpened += 1;
                 break;
             case 'clicked':
                 email.analytics.clicked += 1;
+                stats.totalClicked += 1;
                 break;
             default:
                 return res.status(400).send('Unknown event');
