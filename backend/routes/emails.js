@@ -15,7 +15,9 @@ router.post('/createEmail', async (req, res) => {
             from: `Tapesh <${from}@${config.mailgunData.domain}>`,
             to,
             subject,
-            html: body
+            html: body,
+            'o:tracking-opens': "yes",
+			'o:tracking-clicks': "yes"
         };
         const response = await mg.messages.create(config.mailgunData.domain, emailData);
         const newEmail = new Email({ subject, body, to, from, mailgunId: response.id });
