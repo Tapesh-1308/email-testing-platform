@@ -12,7 +12,7 @@ const app = express();
 
 
 var corsOptions = {
-  origin: 'https://email-testing-platform.onrender.com',
+  origin: 'https://email-testing-platform.vercel.app',
   optionsSuccessStatus: 200
 }
 
