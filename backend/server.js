@@ -12,7 +12,7 @@ const app = express();
 
 
 var corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'https://email-testing-platform.onrender.com',
   optionsSuccessStatus: 200
 }
 
