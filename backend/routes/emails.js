@@ -67,8 +67,9 @@ router.get('/getAllStats', async (req, res) => {
 // Webhook listener for email analytics
 router.post('/webhook', async (req, res) => {
     try {
-        const { event } = req.body;
-        const messageId = req.body.message.headers['message-id'];
+        const eventData = req.body['event-data'];
+        const { event } = eventData;
+        const messageId = `<${eventData.message.headers['message-id']}>`;
 
         const email = await Email.findOne({ mailgunId: messageId });
         if (!email) return res.status(404).send('Email not found');
