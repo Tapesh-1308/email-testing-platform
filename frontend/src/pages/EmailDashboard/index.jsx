@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { mockEmails } from "../../utils/constants";
+import { BASE_URL, mockEmails } from "../../utils/constants";
 import { useEffect, useState } from "react";
 import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
 import AdsClickIcon from "@mui/icons-material/AdsClick";
@@ -14,7 +14,7 @@ const EmailDashboard = () => {
 		const getEmailDataById = async (id) => {
 			try {
 				const response = await fetch(
-					"http://localhost:5000/api/getEmailById/" + id
+					BASE_URL + "/api/getEmailById/" + id
 				);
 				if (!response.ok) {
 					throw new Error("Failed to fetch email data");

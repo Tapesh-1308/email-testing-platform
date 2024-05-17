@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import HTMLEmailForm from "../../components/HTMLEmailForm";
 import DragDropEmailForm from "../../components/DragDropEmailForm";
-import { mockSubscribers } from "../../utils/constants";
+import { BASE_URL, mockSubscribers } from "../../utils/constants";
 import { addEmail } from "../../store/emailsSlice";
 import { useDispatch } from "react-redux";
 
@@ -31,7 +31,7 @@ const CreateEmail = () => {
 		};
 
 		try {
-			const response = await fetch("http://localhost:5000/api/createEmail", {
+			const response = await fetch(BASE_URL + "/api/createEmail", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

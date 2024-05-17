@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { BASE_URL } from '../utils/constants';
 
 
 export const fetchEmails = createAsyncThunk('emails/fetchEmails', async () => {
-  const response = await fetch('http://localhost:5000/api/getAllEmails');
+  const response = await fetch(BASE_URL + '/api/getAllEmails');
   const data = await response.json();
   return data;
 });

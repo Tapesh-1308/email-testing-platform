@@ -5,7 +5,7 @@ import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import AdsClickIcon from "@mui/icons-material/AdsClick";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { useNavigate } from "react-router-dom";
-import { mockEmails } from "../../utils/constants";
+import { mockEmails, BASE_URL } from "../../utils/constants";
 import LineChart from "../../components/LineChart";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -21,7 +21,7 @@ const Dashboard = () => {
 	useEffect(() => {
 		const fetchEmailStats = async () => {
 			try {
-				const response = await fetch("http://localhost:5000/api/getAllStats");
+				const response = await fetch(BASE_URL + "/api/getAllStats");
 				if (!response.ok) {
 					throw new Error("Failed to fetch email stats");
 				}
