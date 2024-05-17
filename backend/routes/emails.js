@@ -64,8 +64,10 @@ router.get('/getAllStats', async (req, res) => {
 
 // Webhook listener for email analytics
 router.post('/webhook', async (req, res) => {
-    const { event, 'message-id': messageId } = req.body;
     try {
+        const { event } = req.body;
+        const messageId = req.body.message.headers['message-id'];
+
         const email = await Email.findOne({ mailgunId: messageId });
         if (!email) return res.status(404).send('Email not found');
 
@@ -82,11 +84,13 @@ router.post('/webhook', async (req, res) => {
             default:
                 return res.status(400).send('Unknown event');
         }
-
         await email.save();
+
         res.status(200).send('Event recorded');
     } catch (error) {
-        res.status(500).send(error);
+        
+        console.error(error);
+        res.status(500).send('Internal Server Error');
     }
 });
 
