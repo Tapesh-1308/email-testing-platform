@@ -33,6 +33,9 @@ const Dashboard = () => {
 		};
 
 		fetchEmailStats();
+
+		const intervalId = setInterval(fetchEmailStats, 10000);
+    return () => clearInterval(intervalId);
 	}, []);
 
 	const exportDataToCSV = () => {
