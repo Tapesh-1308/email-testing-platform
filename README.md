@@ -26,6 +26,7 @@ The frontend is built using React, Vite, and Material UI, with Redux Toolkit for
 - Real-time dashboard updates using API polling.
 - Email creation form with validation and options to add plain HTML or design emails using a drag-and-drop feature from the Unlayer library.
 - Subscriber management with filters using Material UI's Data Grid.
+- Download all the analytics in CSV and PDF formats.
 
 ## Approach
 
