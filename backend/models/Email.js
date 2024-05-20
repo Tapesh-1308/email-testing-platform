@@ -10,9 +10,9 @@ const EmailSchema = new mongoose.Schema({
         default: 'sent'
     },
     analytics: {
-        delivered: { type: Number, default: 0 },
-        opened: { type: Number, default: 0 },
-        clicked: { type: Number, default: 0 }
+        delivered: { type: [String], default: [] },
+        opened: { type: [String], default: [] },
+        clicked: { type: [String], default: [] }
     },
     mailgunId: String
 }, { timestamps: true });

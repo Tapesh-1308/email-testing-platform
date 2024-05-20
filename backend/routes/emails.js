@@ -68,7 +68,7 @@ router.get('/getAllStats', async (req, res) => {
 router.post('/webhook', async (req, res) => {
     try {
         const eventData = req.body['event-data'];
-        const { event } = eventData;
+        const { event, recipient } = eventData;
         const messageId = `<${eventData.message.headers['message-id']}>`;
 
         const email = await Email.findOne({ mailgunId: messageId });
@@ -77,18 +77,23 @@ router.post('/webhook', async (req, res) => {
         const stats = await EmailStats.findOne();
         if (!stats) return res.status(500).send('EmailStats document not found');
 
+        const updateEmailStats = (type) => {
+            if (!email.analytics[type].includes(recipient)) {
+                email.analytics[type].push(recipient);
+                stats[`total${type.charAt(0).toUpperCase() + type.slice(1)}`] += 1;
+            }
+        };
+
+
         switch (event) {
             case 'delivered':
-                email.analytics.delivered += 1;
-                stats.totalDelivered += 1;
+                updateEmailStats('delivered');
                 break;
             case 'opened':
-                email.analytics.opened += 1;
-                stats.totalOpened += 1;
+                updateEmailStats('opened');
                 break;
             case 'clicked':
-                email.analytics.clicked += 1;
-                stats.totalClicked += 1;
+                updateEmailStats('clicked');
                 break;
             default:
                 return res.status(400).send('Unknown event');

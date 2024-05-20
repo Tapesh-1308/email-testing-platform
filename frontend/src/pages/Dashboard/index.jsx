@@ -35,7 +35,7 @@ const Dashboard = () => {
 		fetchEmailStats();
 
 		const intervalId = setInterval(fetchEmailStats, 10000);
-    return () => clearInterval(intervalId);
+		return () => clearInterval(intervalId);
 	}, []);
 
 	const exportDataToCSV = () => {
@@ -99,8 +99,33 @@ const Dashboard = () => {
 		return new Date(dateString).toLocaleDateString(undefined, options);
 	};
 
+	const getChangePercentage = (current, previous) => {
+		if (previous === 0) return 100;
+		return (((current - previous) / previous) * 100).toFixed(1);
+	};
+
+	const latestEmail =
+		emails?.length == 0
+			? { analytics: { delivered: 0, opened: 0, clicked: 0 } }
+			: emails?.[emails.length - 1];
+
+	const deliveredPercentage = getChangePercentage(
+		emailStats?.totalDelivered,
+		emailStats?.totalDelivered - latestEmail?.analytics.delivered
+	);
+
+	const openedPercentage = getChangePercentage(
+		emailStats?.totalOpened,
+		emailStats?.totalOpened - latestEmail?.analytics.opened
+	);
+
+	const clickedPercentage = getChangePercentage(
+		emailStats?.totalClicked,
+		emailStats?.totalClicked - latestEmail?.analytics.clicked
+	);
+
 	if (!emailStats) return;
-	
+
 	return (
 		<Box m="20px">
 			<Box
@@ -194,20 +219,16 @@ const Dashboard = () => {
 					<Box
 						width="80px"
 						borderRadius="50px"
-						backgroundColor="#2b994880"
+						backgroundColor={
+							deliveredPercentage > 0 ? "#2b994880" : "#fc032c80"
+						}
 						p="5px 10px"
 						display="flex"
 						gap="10px"
 						alignItems="center"
 						justifyContent="center"
 					>
-						<Typography variant="body2">
-							{(
-								(emailStats?.totalDelivered / emailStats?.totalSent) *
-								100
-							).toFixed(1)}
-							%
-						</Typography>
+						<Typography variant="body2">{deliveredPercentage}%</Typography>
 						<MarkEmailUnreadIcon fontSize="20px" />
 					</Box>
 				</Box>
@@ -233,20 +254,14 @@ const Dashboard = () => {
 					<Box
 						width="80px"
 						borderRadius="50px"
-						backgroundColor="#2b994880"
+						backgroundColor={openedPercentage > 0 ? "#2b994880" : "#fc032c80"}
 						p="5px 10px"
 						display="flex"
 						gap="10px"
 						alignItems="center"
 						justifyContent="center"
 					>
-						<Typography variant="body2">
-							{(
-								(emailStats?.totalOpened / emailStats?.totalDelivered) *
-								100
-							).toFixed(1)}
-							%
-						</Typography>
+						<Typography variant="body2">{openedPercentage}%</Typography>
 						<RemoveRedEyeIcon fontSize="20px" />
 					</Box>
 				</Box>
@@ -272,20 +287,14 @@ const Dashboard = () => {
 					<Box
 						width="80px"
 						borderRadius="50px"
-						backgroundColor="#fc032c80"
+						backgroundColor={clickedPercentage > 0 ? "#2b994880" : "#fc032c80"}
 						p="5px 10px"
 						display="flex"
 						gap="10px"
 						alignItems="center"
 						justifyContent="center"
 					>
-						<Typography variant="body2">
-							{(
-								(emailStats?.totalClicked / emailStats?.totalOpened) *
-								100
-							).toFixed(1)}
-							%
-						</Typography>
+						<Typography variant="body2">{clickedPercentage}%</Typography>
 						<AdsClickIcon fontSize="20px" />
 					</Box>
 				</Box>
@@ -349,9 +358,7 @@ const Dashboard = () => {
 					borderRadius="5px"
 					p="15px 20px"
 				>
-					<LineChart
-						
-					/>
+					<LineChart />
 				</Box>
 			</Box>
 		</Box>

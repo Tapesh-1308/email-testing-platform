@@ -42,7 +42,7 @@ const EmailDashboard = () => {
 			gap="40px"
 		>
 			<Box backgroundColor="#444" borderRadius="10px" p="20px" height="100%">
-				<Typography variant="h5">{emailData?.subjectName}</Typography>
+				<Typography variant="h5">{emailData?.subject}</Typography>
 				<Box borderBottom="4px solid #888" pt="10px"></Box>
 				<div dangerouslySetInnerHTML={{ __html: emailData?.body }}></div>
 			</Box>
@@ -61,7 +61,7 @@ const EmailDashboard = () => {
 							Delievered
 						</Typography>
 						<Typography variant="subtitle1" color="white">
-							{emailData?.analytics?.delivered}
+							{emailData?.analytics?.delivered?.length}
 							<Typography color="#bbb" display="inline">
 								/{emailData?.to?.length}
 							</Typography>
@@ -79,7 +79,7 @@ const EmailDashboard = () => {
 					>
 						<Typography>
 							{(
-								(emailData?.analytics?.delivered /
+								(emailData?.analytics?.delivered?.length /
 									(emailData?.to?.length || 1)) *
 								100
 							).toFixed(1)}
@@ -101,9 +101,9 @@ const EmailDashboard = () => {
 							Opened
 						</Typography>
 						<Typography variant="subtitle1" color="white">
-							{emailData?.analytics?.opened}
+							{emailData?.analytics?.opened?.length}
 							<Typography color="#bbb" display="inline">
-								/{emailData?.analytics?.delivered}
+								/{emailData?.analytics?.delivered?.length}
 							</Typography>
 						</Typography>
 					</Box>
@@ -119,8 +119,8 @@ const EmailDashboard = () => {
 					>
 						<Typography>
 							{(
-								(emailData?.analytics?.opened /
-									(emailData?.analytics?.delivered || 1)) *
+								(emailData?.analytics?.opened?.length /
+									(emailData?.analytics?.delivered?.length || 1)) *
 								100
 							).toFixed(1)}
 							%
@@ -159,8 +159,8 @@ const EmailDashboard = () => {
 					>
 						<Typography>
 							{(
-								(emailData?.analytics?.clicked /
-									(emailData?.analytics?.opened || 1)) *
+								(emailData?.analytics?.clicked?.length /
+									(emailData?.analytics?.opened?.length || 1)) *
 								100
 							).toFixed(1)}
 							%
