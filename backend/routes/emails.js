@@ -84,7 +84,6 @@ router.post('/webhook', async (req, res) => {
             }
         };
 
-
         switch (event) {
             case 'delivered':
                 updateEmailStats('delivered');
@@ -99,6 +98,7 @@ router.post('/webhook', async (req, res) => {
                 return res.status(400).send('Unknown event');
         }
         await email.save();
+        await stats.save();
 
         res.status(200).send('Event recorded');
     } catch (error) {
