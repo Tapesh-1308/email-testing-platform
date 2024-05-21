@@ -31,9 +31,9 @@ const LineChart = () => {
 		new Date(email.createdAt).toLocaleDateString()
 	);
 
-	const delivered = emails?.map((email) => email.analytics.delivered);
-	const opened = emails?.map((email) => email.analytics.opened);
-	const clicked = emails?.map((email) => email.analytics.clicked);
+	const delivered = emails?.map((email) => email.analytics.delivered.length);
+	const opened = emails?.map((email) => email.analytics.opened.length);
+	const clicked = emails?.map((email) => email.analytics.clicked.length);
 
 	const data = {
 		labels,
